@@ -438,6 +438,56 @@
       text-transform: uppercase; color: rgba(244,239,228,0.2);
     }
 
+    /* Dropdown container */
+    .dropdown {
+      position: relative;
+    }
+
+    /* Dropdown menu hidden by default */
+    .dropdown-menu {
+      position: absolute;
+      top: 120%;
+      left: 0;
+      background: var(--paper);
+      border: 1px solid var(--ink-faint);
+      padding: 0.6rem 0;
+      list-style: none;
+      min-width: 180px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      transition: all 0.25s ease;
+      z-index: 999;
+    }
+
+    /* Dropdown items */
+    .dropdown-menu li {
+      padding: 0;
+    }
+
+    .dropdown-menu a {
+      display: block;
+      padding: 0.6rem 1rem;
+      font-size: 0.7rem;
+      color: var(--ink-dim);
+      font-family: 'Courier Prime', monospace;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* Hover effects (match your theme) */
+    .dropdown-menu a:hover {
+      color: var(--fire);
+      background: var(--fire-bg);
+    }
+
+    /* Show dropdown on hover */
+    .dropdown:hover .dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
     /* ═══════════════════════════════════
        ANIMATIONS
     ═══════════════════════════════════ */
@@ -471,6 +521,15 @@
       .exp-grid { grid-template-columns: 1fr; }
       .hero-left { padding: 8rem 1.5rem 4rem; }
     }
+    @media (max-width: 600px) {
+  .dropdown-menu {
+    position: static;
+    transform: none;
+    opacity: 1;
+    visibility: visible;
+    border: none;
+  }
+}
   </style>
 </head>
 <body>
@@ -483,7 +542,14 @@
     <li><a href="#skills">Skills</a></li>
     <li><a href="#projects">Projects</a></li>
     <li><a href="#expertise">Expertise</a></li>
-    <li><a href="/upi">UPIQR</a></li>
+    <li class="dropdown">
+      <a href="#">Tools</a>
+      <ul class="dropdown-menu">
+        <li><a href="/upi">UPI QR Generator</a></li>
+        <!-- <li><a href="#tool2">Tool 2</a></li>
+        <li><a href="#tool3">Tool 3</a></li> -->
+      </ul>
+    </li>
     <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
@@ -928,7 +994,7 @@
       </a>
       <a href="https://www.linkedin.com/in/vishwaai" target="_blank" class="clink">LinkedIn &rarr;</a>
       <a href="https://github.com/vishwajeetsinghrana8" target="_blank" class="clink">GitHub &rarr;</a>
-      <a href="https://drive.google.com/file/d/1yLZdQda7dWrHOMkPwVPd6Sw3ZROjUfEE/view?usp=sharing" class="clink">&#8595;&nbsp; Download CV</a>
+      <a href="resume.pdf" class="clink">&#8595;&nbsp; Download CV</a>
     </div>
   </div>
 </section>
