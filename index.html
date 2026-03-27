@@ -48,19 +48,23 @@
        NAVIGATION
     ═══════════════════════════════════ */
     nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
       display: flex; align-items: center; justify-content: space-between;
       padding: 1.1rem 4rem;
-      background: rgba(251,248,242,0.92);
-      backdrop-filter: blur(12px);
+      background: rgba(251,248,242,0.97);
+      backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--ink-faint);
     }
     .nav-name {
       font-family: 'Playfair Display', serif;
       font-weight: 700; font-size: 1.05rem; color: var(--ink);
+      position: relative; z-index: 201;
     }
     .nav-name span { color: var(--fire); }
-    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-name a { color: inherit; }
+
+    /* Desktop links */
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
     .nav-links a {
       font-family: 'Courier Prime', monospace;
       font-size: 0.72rem; text-transform: uppercase;
@@ -74,6 +78,116 @@
     }
     .nav-links a:hover { color: var(--fire); }
     .nav-links a:hover::after { transform: scaleX(1); }
+
+    /* Dropdown (desktop) */
+    .dropdown { position: relative; }
+    .dropdown-menu {
+      position: absolute; top: 120%; left: 0;
+      background: var(--paper); border: 1px solid var(--ink-faint);
+      padding: 0.6rem 0; list-style: none; min-width: 200px;
+      opacity: 0; visibility: hidden;
+      transform: translateY(10px); transition: all 0.25s ease; z-index: 999;
+    }
+    .dropdown-menu li { padding: 0; }
+    .dropdown-menu a {
+      display: block; padding: 0.6rem 1rem;
+      font-size: 0.7rem; color: var(--ink-dim);
+      font-family: 'Courier Prime', monospace;
+      letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    .dropdown-menu a:hover { color: var(--fire); background: var(--fire-bg); }
+    .dropdown:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+
+    /* ── Hamburger button ── */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      width: 42px; height: 42px;
+      background: transparent;
+      border: 1px solid var(--ink-faint);
+      cursor: pointer;
+      position: relative; z-index: 201;
+      transition: border-color 0.25s;
+      flex-shrink: 0;
+      padding: 0;
+    }
+    .nav-hamburger:hover { border-color: var(--fire); }
+    .nav-hamburger span {
+      display: block;
+      width: 20px; height: 1.5px;
+      background: var(--ink);
+      transition: transform 0.35s ease, opacity 0.25s ease, background 0.2s;
+      transform-origin: center;
+    }
+    /* Animated X when open */
+    .nav-hamburger.open span:nth-child(1) {
+      transform: translateY(6.5px) rotate(45deg); background: var(--fire);
+    }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .nav-hamburger.open span:nth-child(3) {
+      transform: translateY(-6.5px) rotate(-45deg); background: var(--fire);
+    }
+
+    /* ── Mobile full-screen drawer ── */
+    .nav-drawer {
+      display: none;
+      position: fixed; inset: 0; z-index: 199;
+      background: rgba(251,248,242,0.98);
+      backdrop-filter: blur(20px);
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transform: translateY(-12px);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+      pointer-events: none;
+      padding-top: 5rem;
+    }
+    .nav-drawer.open { opacity: 1; transform: none; pointer-events: all; }
+
+    .nav-drawer ul {
+      list-style: none; width: 100%;
+      display: flex; flex-direction: column; align-items: center; gap: 0;
+    }
+    .nav-drawer ul li { width: 100%; border-bottom: 1px solid var(--ink-faint); text-align: center; }
+    .nav-drawer ul li:first-child { border-top: 1px solid var(--ink-faint); }
+    .nav-drawer ul li a {
+      display: block; padding: 1.3rem 2rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.55rem; font-weight: 700; color: var(--ink);
+      transition: color 0.2s, padding-left 0.25s;
+    }
+    .nav-drawer ul li a:hover { color: var(--fire); padding-left: 2.8rem; }
+
+    /* Nested tools list inside drawer */
+    .nav-drawer .drawer-sub { display: flex; flex-direction: column; gap: 0; }
+    .nav-drawer .drawer-sub-title {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.68rem; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--fire);
+      padding: 1.3rem 2rem 0.4rem;
+    }
+    .nav-drawer .drawer-sub a {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.8rem; font-weight: 400; color: var(--ink-dim);
+      padding: 0.65rem 2rem; border: none;
+      letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    .nav-drawer .drawer-sub a:hover { color: var(--fire); padding-left: 2.5rem; }
+
+    .nav-drawer-footer {
+      margin-top: 3rem;
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.65rem; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--ink-dim);
+    }
+    .nav-drawer-footer span { color: var(--fire); }
+
+    /* Lock body scroll when drawer open */
+    body.nav-open { overflow: hidden; }
 
     /* ═══════════════════════════════════
        HERO
@@ -438,55 +552,7 @@
       text-transform: uppercase; color: rgba(244,239,228,0.2);
     }
 
-    /* Dropdown container */
-    .dropdown {
-      position: relative;
-    }
-
-    /* Dropdown menu hidden by default */
-    .dropdown-menu {
-      position: absolute;
-      top: 120%;
-      left: 0;
-      background: var(--paper);
-      border: 1px solid var(--ink-faint);
-      padding: 0.6rem 0;
-      list-style: none;
-      min-width: 180px;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(10px);
-      transition: all 0.25s ease;
-      z-index: 999;
-    }
-
-    /* Dropdown items */
-    .dropdown-menu li {
-      padding: 0;
-    }
-
-    .dropdown-menu a {
-      display: block;
-      padding: 0.6rem 1rem;
-      font-size: 0.7rem;
-      color: var(--ink-dim);
-      font-family: 'Courier Prime', monospace;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
-
-    /* Hover effects (match your theme) */
-    .dropdown-menu a:hover {
-      color: var(--fire);
-      background: var(--fire-bg);
-    }
-
-    /* Show dropdown on hover */
-    .dropdown:hover .dropdown-menu {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-    }
+    /* Dropdown styles moved into Navigation section above */
 
     /* ═══════════════════════════════════
        ANIMATIONS
@@ -504,6 +570,9 @@
     /* ═══════════════════════════════════
        RESPONSIVE
     ═══════════════════════════════════ */
+    /* ═══════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════ */
     @media (max-width: 900px) {
       #hero { grid-template-columns: 1fr; }
       .hero-right { display: none; }
@@ -515,44 +584,67 @@
       .proj-arrow { display: none; }
       footer { flex-direction: column; text-align: center; }
     }
+    @media (max-width: 768px) {
+      /* Hide desktop links, show hamburger + drawer */
+      .nav-links { display: none !important; }
+      .nav-hamburger { display: flex; }
+      .nav-drawer { display: flex; }
+    }
     @media (max-width: 600px) {
-      .nav-links { display: none; }
       h1 { font-size: 2.6rem; }
       .exp-grid { grid-template-columns: 1fr; }
       .hero-left { padding: 8rem 1.5rem 4rem; }
     }
-    @media (max-width: 600px) {
-  .dropdown-menu {
-    position: static;
-    transform: none;
-    opacity: 1;
-    visibility: visible;
-    border: none;
-  }
-}
   </style>
 </head>
 <body>
 
 <!-- ══ NAV ══ -->
-<nav>
+<nav id="main-nav">
   <div class="nav-name">V. <span><a href="/">Rana</a></span></div>
+
+  <!-- Desktop links -->
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#projects">Projects</a></li>
     <li><a href="#expertise">Expertise</a></li>
     <li class="dropdown">
-      <a href="#">Tools</a>
+      <a href="#">Tools ▾</a>
       <ul class="dropdown-menu">
         <li><a href="/upi">UPI QR Generator</a></li>
         <li><a href="/removebg">Image Background Remover</a></li>
-        <!--<li><a href="#tool3">Tool 3</a></li> -->
       </ul>
     </li>
     <li><a href="#contact">Contact</a></li>
   </ul>
+
+  <!-- Hamburger (mobile only) -->
+  <button class="nav-hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
 </nav>
+
+<!-- Mobile drawer -->
+<div class="nav-drawer" id="nav-drawer" role="dialog" aria-modal="true" aria-label="Navigation">
+  <ul>
+    <li><a href="#about"     class="drawer-link">About</a></li>
+    <li><a href="#skills"    class="drawer-link">Skills</a></li>
+    <li><a href="#projects"  class="drawer-link">Projects</a></li>
+    <li><a href="#expertise" class="drawer-link">Expertise</a></li>
+    <li>
+      <div class="drawer-sub">
+        <div class="drawer-sub-title">Tools</div>
+        <a href="/upi"      class="drawer-link">UPI QR Generator</a>
+        <a href="/removebg" class="drawer-link">Image Background Remover</a>
+      </div>
+    </li>
+    <li><a href="#contact" class="drawer-link">Contact</a></li>
+  </ul>
+  <div class="nav-drawer-footer">Vishwajeet <span>Singh Rana</span> &mdash; AI / ML Engineer</div>
+</div>
 
 <!-- ══ HERO ══ -->
 <section id="hero">
@@ -619,7 +711,7 @@
         <div class="about-contact-card">
           <div class="acl">
             <span class="acl-icon">Email</span>
-            <span class="acl-val"><a href="mailto:vishwajeetsinghrana8@gmail.com">vishwajeetsinghrana8@gmail.com</a></span>
+            <span class="acl-val"><a href="/cdn-cgi/l/email-protection#52243b213a253338373726213b3c353a20333c336a12353f333b3e7c313d3f"><span class="__cf_email__" data-cfemail="fb8d9288938c9a919e9e8f8892959c93899a959ac3bb9c969a9297d5989496">[email&#160;protected]</span></a></span>
           </div>
           <div class="acl">
             <span class="acl-icon">Role</span>
@@ -994,7 +1086,7 @@
       </a>
       <a href="https://www.linkedin.com/in/vishwaai" target="_blank" class="clink">LinkedIn &rarr;</a>
       <a href="https://github.com/vishwajeetsinghrana8" target="_blank" class="clink">GitHub &rarr;</a>
-      <a href="resume.pdf" class="clink">&#8595;&nbsp; Download CV</a>
+      <a href="https://drive.google.com/file/d/1yLZdQda7dWrHOMkPwVPd6Sw3ZROjUfEE/view?usp=sharing" class="clink">&#8595;&nbsp; Download CV</a>
     </div>
   </div>
 </section>
@@ -1006,7 +1098,38 @@
 </footer>
 
 <script>
-  // Scroll-reveal
+  // ── Hamburger / Mobile Drawer ───────────────────────────
+  const hamburger = document.getElementById('hamburger');
+  const drawer    = document.getElementById('nav-drawer');
+
+  function openMenu() {
+    hamburger.classList.add('open');
+    drawer.classList.add('open');
+    document.body.classList.add('nav-open');
+    hamburger.setAttribute('aria-expanded', 'true');
+  }
+  function closeMenu() {
+    hamburger.classList.remove('open');
+    drawer.classList.remove('open');
+    document.body.classList.remove('nav-open');
+    hamburger.setAttribute('aria-expanded', 'false');
+  }
+
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.contains('open') ? closeMenu() : openMenu();
+  });
+
+  // Close on any drawer link tap
+  document.querySelectorAll('.drawer-link').forEach(link => {
+    link.addEventListener('click', closeMenu);
+  });
+
+  // Close on Escape key
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeMenu();
+  });
+
+  // ── Scroll-reveal ───────────────────────────────────────
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((e, i) => {
       if (e.isIntersecting) {
@@ -1017,7 +1140,7 @@
   }, { threshold: 0.1 });
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-  // Active nav highlight
+  // ── Active nav highlight (desktop) ─────────────────────
   const sections = document.querySelectorAll('section[id]');
   const links    = document.querySelectorAll('.nav-links a');
   window.addEventListener('scroll', () => {
